@@ -1,3 +1,18 @@
+General notes
+How I approached the code challenge. 
+I read the prompt to understand what is needed.
+I setup the base project using Vite to start the project
+I loaded the RestCountries API and made an interface of the country this will help me understand what properties are availible on it
+-I saw the countries did not have an id and still wanted to get a alternate unique identifier I googled the properties and found 'cca2' is a code that is unique to each country so that would be my identifier.
+I made a service to grab the countries
+I made the Countries component to visually display country using React including the useState and useEffect hooks
+
+what will be done next
+*-all countries are pulled in, however the prompt is requesting 'Make a call specific to the Northern Europe subregion', went back to the api to pull northern european subregion
+-update country list to show name, population, capital, and flag
+
+
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
