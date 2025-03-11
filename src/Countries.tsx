@@ -4,6 +4,7 @@ import { fetchCountries } from "./services/fetchCountries";
 
 const Countries = () => {
     const [countries, setCountries] = useState<Country[]>([]);
+    
 
     // grab all countires from the api using the service
     useEffect(() => {
@@ -22,13 +23,14 @@ const Countries = () => {
     // sort just on country name
     function sorter(): void {
         // Implement sorting logic here
-        const sortedCountries = [...countries].sort((a, b) => {
-            if (a.name.common < b.name.common) {
-                return -1
-            } else {
-                return 1
-            }
-        })
+        const sortedCountries = [...countries].sort((a, b) => a.name.common.localeCompare(b.name.common));
+
+        // if (a.name.common < b.name.common) {
+        //     return -1
+        // } else {
+        //     return 1
+        // }
+
         setCountries(sortedCountries)
     }
 
