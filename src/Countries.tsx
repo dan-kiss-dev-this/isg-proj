@@ -18,16 +18,30 @@ const Countries = () => {
         getCountries()
 
     }, [])
+
+    // sort just on country name
+    function sorter(): void {
+        // Implement sorting logic here
+        const sortedCountries = [...countries].sort((a, b) => {
+            if (a.name.common < b.name.common) {
+                return -1
+            } else {
+                return 1
+            }
+        })
+        setCountries(sortedCountries)
+    }
+
     // note the unique id for a country is based on ISO 3166-1 alpha-2 two-letter country codes, in the api its called 'alpha2Code / cca2'
 
     // name, population, capital, and flag
     return (
         <div>
-            <h1>Countries</h1>
+            <h1>ISG Countries Info Finder</h1>
             <table>
                 <thead>
                     <tr>
-                        <th>Common Name</th>
+                        <th onClick={sorter} >Common Name ▲:▼</th>
                         <th>Population</th>
                         <th>Capital</th>
                         <th>Flag</th>
