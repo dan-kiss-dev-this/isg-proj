@@ -17,15 +17,35 @@ const Countries = () => {
         }
         getCountries()
 
-    }, [countries])
+    }, [])
     // note the unique id for a country is based on ISO 3166-1 alpha-2 two-letter country codes, in the api its called 'alpha2Code / cca2'
+
+    // name, population, capital, and flag
     return (
         <div>
             <h1>Countries</h1>
-            <ul>
-                {countries.map((country) => <li key={country.cca2}>{country?.name?.common}</li>)}
-
-            </ul>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Common Name</th>
+                        <th>Population</th>
+                        <th>Capital</th>
+                        <th>Flag</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {countries.map((country) => (
+                        <tr key={country.cca2}>
+                            <td>{country.name.common}</td>
+                            <td>{country.population}</td>
+                            <td>{country.capital?.[0]}</td>
+                            <td>
+                                <img src={country.flags.svg} alt={`Flag of ${country.name.common}`} width="50" />
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
         </div>
     )
 }
