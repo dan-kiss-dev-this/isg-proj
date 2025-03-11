@@ -1,7 +1,8 @@
 export const fetchCountries = async () => {
-    const countries = await fetch('https://restcountries.com/v3.1/all');
+    // using subregion to only get Northern European countries
+    const countries = await fetch('https://restcountries.com/v3.1/subregion/Northern Europe');
     console.log(countries);
-    if(!countries) {
+    if (!countries) {
         throw new Error('Not able to fetch countries')
     }
     return countries.json();
