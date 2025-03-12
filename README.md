@@ -1,3 +1,6 @@
+# ISG project
+![Screenshot of the application](./src/assets/isg.png)
+
 # How to run the ISG project
 - Git the Clone
 - Go to the root directory and run "npm install"
