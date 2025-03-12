@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Country from './interfaces/ICountry';
 import { fetchCountries } from "./services/fetchCountries";
+import './Countries.css'
 
 const Countries = () => {
     const [countries, setCountries] = useState<Country[]>([]);
@@ -76,7 +77,7 @@ const Countries = () => {
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.currentTarget.value)}
             />
-            <table>
+            <table id="countriesTable">
                 <thead>
                     <tr>
                         <th onClick={sorter} id="name">
