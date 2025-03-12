@@ -60,8 +60,8 @@ const Countries = () => {
             <table>
                 <thead>
                     <tr>
-                        <th onClick={sorter} id="name">Name {sortObject.order === 'ascending' ? '▼' : '▲'}</th>
-                        <th onClick={sorter} id="population">Population</th>
+                        <th onClick={sorter} id="name">Name ▼▲</th>
+                        <th onClick={sorter} id="population">Population ▼▲</th>
                         <th onClick={sorter} id="capital">Capital</th>
                         <th onClick={sorter} id="flag">Flag</th>
                     </tr>
