@@ -11,7 +11,8 @@ const Countries = () => {
         const getCountries = async () => {
             try {
                 const countriesData = await fetchCountries()
-                setCountries(countriesData);
+                const sortedCountries = [...countriesData].sort((a, b) => a.name.common.localeCompare(b.name.common));
+                setCountries(sortedCountries);
             } catch (error) {
                 console.log(error)
             }
@@ -20,17 +21,8 @@ const Countries = () => {
         getCountries()
     }, [])
 
-
-    // sort just on country name, get key from e.currentTarget.id
-    function sorter(e: React.MouseEvent): void {
-        console.log(25, e.currentTarget.id)
-
-        const key = e.currentTarget.id;
-        const order = sortObject.order === 'ascending' ? 'descending' : 'ascending';
-
-        // check timing of this hook
-        setSortObject({ key, order })
-
+    // this hook was added so that react will run the logic below only after the sortObject state has been updated. This avoids a timing issue where the sortObject state is not updated and the logic below runs which would appear to be a bug to the user.
+    useEffect(() => {
         if (sortObject.order === "ascending" && sortObject.key === "name") {
             const sortedCountries = [...countries].sort((a, b) => a.name.common.localeCompare(b.name.common));
             setCountries(sortedCountries)
@@ -45,6 +37,18 @@ const Countries = () => {
             const sortedPopulation = [...countries].sort((a, b) => b.population - a.population);
             setCountries(sortedPopulation)
         }
+    }, [sortObject])
+
+
+    // sort just on country name, get key from e.currentTarget.id
+    function sorter(e: React.MouseEvent): void {
+        console.log(25, e.currentTarget.id)
+
+        const key = e.currentTarget.id;
+        const order = sortObject.order === 'ascending' ? 'descending' : 'ascending';
+
+        // check timing of this hook
+        setSortObject({ key, order })
     }
 
     // note the unique id for a country is based on ISO 3166-1 alpha-2 two-letter country codes, in the api its called 'alpha2Code / cca2'
@@ -56,7 +60,7 @@ const Countries = () => {
             <table>
                 <thead>
                     <tr>
-                        <th onClick={sorter} id="name">Name ▲:▼</th>
+                        <th onClick={sorter} id="name">Name {sortObject.order === 'ascending' ? '▼' : '▲'}</th>
                         <th onClick={sorter} id="population">Population</th>
                         <th onClick={sorter} id="capital">Capital</th>
                         <th onClick={sorter} id="flag">Flag</th>
