@@ -66,8 +66,8 @@ const Countries = () => {
                         <th onClick={sorter} id="population">
                             <button>Population ▼▲</button>
                         </th>
-                        <th onClick={sorter} id="capital">Capital</th>
-                        <th onClick={sorter} id="flag">Flag</th>
+                        <th id="capital">Capital</th>
+                        <th id="flag">Flag</th>
                     </tr>
                 </thead>
                 <tbody>
