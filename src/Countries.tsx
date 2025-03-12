@@ -4,7 +4,9 @@ import { fetchCountries } from "./services/fetchCountries";
 
 const Countries = () => {
     const [countries, setCountries] = useState<Country[]>([]);
-    const [sortObject, setSortObject] = useState({ key: 'name', order: 'ascending' })
+    const [sortObject, setSortObject] = useState<{ key: string, order: string }>({ key: 'name', order: 'ascending' })
+    const [searchQuery, setSearchQuery] = useState<string>("");
+    const [filteredCountries, setFilteredCountries] = useState<Country[]>([])
 
     // grab all countries from the api using the service
     useEffect(() => {
@@ -39,6 +41,10 @@ const Countries = () => {
         }
     }, [sortObject])
 
+    useEffect(() => {
+        setFilteredCountries(filterCountries())
+    }, [searchQuery])
+
 
     // sort just on country name, get key from e.currentTarget.id
     function sorter(e: React.MouseEvent): void {
@@ -52,12 +58,24 @@ const Countries = () => {
         setSortObject({ key, order })
     }
 
+    // find a country based on name
+    function filterCountries() {
+        return countries.filter(country => country.name.common.toLowerCase().includes(searchQuery.toLowerCase()))
+    }
+
     // note the unique id for a country is based on ISO 3166-1 alpha-2 two-letter country codes, in the api its called 'alpha2Code / cca2'
 
     // name, population, capital, and flag
     return (
         <div>
             <h1>ISG Countries Info Finder</h1>
+            <label htmlFor="text">Search for a country</label>
+            <input
+                type="text"
+                placeholder="Search for a country"
+                value={searchQuery}
+                onChange={e => setSearchQuery(e.currentTarget.value)}
+            />
             <table>
                 <thead>
                     <tr>
@@ -72,7 +90,7 @@ const Countries = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {countries.map((country) => (
+                    {filteredCountries.length === 0 ? countries.map((country) => (
                         <tr key={country.cca2}>
                             <td>{country.name.common}</td>
                             <td>{country.population}</td>
@@ -81,7 +99,19 @@ const Countries = () => {
                                 <img src={country.flags.svg} alt={`Flag of ${country.name.common}`} width="50" />
                             </td>
                         </tr>
-                    ))}
+                    ))
+                        :
+                        filteredCountries.map((country) => (
+                            <tr key={country.cca2}>
+                                <td>{country.name.common}</td>
+                                <td>{country.population}</td>
+                                <td>{country.capital?.[0]}</td>
+                                <td>
+                                    <img src={country.flags.svg} alt={`Flag of ${country.name.common}`} width="50" />
+                                </td>
+                            </tr>
+                        ))
+                    }
                 </tbody>
             </table>
         </div>
