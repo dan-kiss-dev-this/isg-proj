@@ -31,10 +31,10 @@ const Countries = () => {
             const sortedCountries = [...countries].sort((a, b) => b.name.common.localeCompare(a.name.common));
             setCountries(sortedCountries)
         } else if (sortObject.order === "ascending" && sortObject.key === "population") {
-            const sortedPopulation = [...countries].sort((a, b) => b.population - a.population);
+            const sortedPopulation = [...countries].sort((a, b) => a.population - b.population);
             setCountries(sortedPopulation)
         } else if (sortObject.order === "descending" && sortObject.key === "population") {
-            const sortedPopulation = [...countries].sort((a, b) => a.population - b.population);
+            const sortedPopulation = [...countries].sort((a, b) => b.population - a.population);
             setCountries(sortedPopulation)
         }
     }, [sortObject])
@@ -45,7 +45,8 @@ const Countries = () => {
         console.log(25, e.currentTarget.id)
 
         const key = e.currentTarget.id;
-        const order = sortObject.order === 'ascending' ? 'descending' : 'ascending';
+        // sort logic adjusted to always start in ascending as you move to a new key
+        const order = (sortObject.order === 'ascending' && key === sortObject.key) ? 'descending' : 'ascending';
 
         // check timing of this hook
         setSortObject({ key, order })
