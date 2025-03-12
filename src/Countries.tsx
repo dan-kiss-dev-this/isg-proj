@@ -4,9 +4,9 @@ import { fetchCountries } from "./services/fetchCountries";
 
 const Countries = () => {
     const [countries, setCountries] = useState<Country[]>([]);
-    
+    const [sortObject, setSortObject] = useState({ key: 'name', order: 'ascending' })
 
-    // grab all countires from the api using the service
+    // grab all countries from the api using the service
     useEffect(() => {
         const getCountries = async () => {
             try {
@@ -16,22 +16,35 @@ const Countries = () => {
                 console.log(error)
             }
         }
-        getCountries()
 
+        getCountries()
     }, [])
 
-    // sort just on country name
-    function sorter(): void {
-        // Implement sorting logic here
-        const sortedCountries = [...countries].sort((a, b) => a.name.common.localeCompare(b.name.common));
 
-        // if (a.name.common < b.name.common) {
-        //     return -1
-        // } else {
-        //     return 1
-        // }
+    // sort just on country name, get key from e.currentTarget.id
+    function sorter(e: React.MouseEvent): void {
+        console.log(25, e.currentTarget.id)
 
-        setCountries(sortedCountries)
+        const key = e.currentTarget.id;
+        const order = sortObject.order === 'ascending' ? 'descending' : 'ascending';
+
+        // check timing of this hook
+        setSortObject({ key, order })
+
+        if (sortObject.order === "ascending" && sortObject.key === "name") {
+            const sortedCountries = [...countries].sort((a, b) => a.name.common.localeCompare(b.name.common));
+            setCountries(sortedCountries)
+        }
+        else if (sortObject.order === "descending" && sortObject.key === "name") {
+            const sortedCountries = [...countries].sort((a, b) => b.name.common.localeCompare(a.name.common));
+            setCountries(sortedCountries)
+        } else if (sortObject.order === "ascending" && sortObject.key === "population") {
+            const sortedPopulation = [...countries].sort((a, b) => a.population - b.population);
+            setCountries(sortedPopulation)
+        } else if (sortObject.order === "descending" && sortObject.key === "population") {
+            const sortedPopulation = [...countries].sort((a, b) => b.population - a.population);
+            setCountries(sortedPopulation)
+        }
     }
 
     // note the unique id for a country is based on ISO 3166-1 alpha-2 two-letter country codes, in the api its called 'alpha2Code / cca2'
@@ -43,10 +56,10 @@ const Countries = () => {
             <table>
                 <thead>
                     <tr>
-                        <th onClick={sorter} >Common Name ▲:▼</th>
-                        <th>Population</th>
-                        <th>Capital</th>
-                        <th>Flag</th>
+                        <th onClick={sorter} id="name">Name ▲:▼</th>
+                        <th onClick={sorter} id="population">Population</th>
+                        <th onClick={sorter} id="capital">Capital</th>
+                        <th onClick={sorter} id="flag">Flag</th>
                     </tr>
                 </thead>
                 <tbody>
