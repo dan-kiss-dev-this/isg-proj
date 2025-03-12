@@ -31,10 +31,10 @@ const Countries = () => {
             const sortedCountries = [...countries].sort((a, b) => b.name.common.localeCompare(a.name.common));
             setCountries(sortedCountries)
         } else if (sortObject.order === "ascending" && sortObject.key === "population") {
-            const sortedPopulation = [...countries].sort((a, b) => a.population - b.population);
+            const sortedPopulation = [...countries].sort((a, b) => b.population - a.population);
             setCountries(sortedPopulation)
         } else if (sortObject.order === "descending" && sortObject.key === "population") {
-            const sortedPopulation = [...countries].sort((a, b) => b.population - a.population);
+            const sortedPopulation = [...countries].sort((a, b) => a.population - b.population);
             setCountries(sortedPopulation)
         }
     }, [sortObject])
@@ -60,8 +60,12 @@ const Countries = () => {
             <table>
                 <thead>
                     <tr>
-                        <th onClick={sorter} id="name">Name ▼▲</th>
-                        <th onClick={sorter} id="population">Population ▼▲</th>
+                        <th onClick={sorter} id="name">
+                            <button>Name ▼▲</button>
+                        </th>
+                        <th onClick={sorter} id="population">
+                            <button>Population ▼▲</button>
+                        </th>
                         <th onClick={sorter} id="capital">Capital</th>
                         <th onClick={sorter} id="flag">Flag</th>
                     </tr>
