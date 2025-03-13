@@ -10,3 +10,7 @@ input {
     margin: 10px;
     padding: 5px;
 }
+
+.highlight {
+    background-color: red;
+}

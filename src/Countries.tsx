@@ -95,10 +95,10 @@ const Countries = () => {
                     <thead>
                         <tr>
                             <th onClick={sorter} id="name">
-                                <button>Name ▼▲</button>
+                                <button className={sortObject.key === "name" ? "highlight" : ""}>Name {sortObject.key === "name" ? (sortObject.order === 'ascending' ? '▼' : '▲') : '▼▲'}</button>
                             </th>
                             <th onClick={sorter} id="population">
-                                <button>Population ▼▲</button>
+                                <button className={sortObject.key === "population" ? "highlight" : ""}>Population{sortObject.key === "population" ? (sortObject.order === 'ascending' ? '▼' : '▲') : '▼▲'}</button>
                             </th>
                             <th id="capital">Capital</th>
                             <th id="flag">Flag</th>
