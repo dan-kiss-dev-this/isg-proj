@@ -11,6 +11,19 @@ const Countries = () => {
     const [filteredCountries, setFilteredCountries] = useState<Country[]>([])
     const [loading, setLoading] = useState<boolean>(true)
 
+    // find a country based on name
+    const filterCountries =() => {
+        return countries.filter(country => country.name.common.toLowerCase().includes(searchQuery.toLowerCase()))
+    }
+
+    // sort just on country name, get key from e.currentTarget.id
+    const sorter = (e: React.MouseEvent): void => {
+        const key = e.currentTarget.id;
+        // sort logic adjusted to always start in ascending as you move to a new key
+        const order = (sortObject.order === 'ascending' && key === sortObject.key) ? 'descending' : 'ascending';
+        setSortObject({ key, order })
+    }
+
     // grab all countries from the api using the service
     useEffect(() => {
         const getCountries = async () => {
@@ -18,6 +31,7 @@ const Countries = () => {
                 const countriesData = await fetchCountries()
                 const sortedCountries = [...countriesData].sort((a, b) => a.name.common.localeCompare(b.name.common));
                 setCountries(sortedCountries);
+                setLoading(false)
             } catch (error) {
                 console.log(error)
                 alert(error)
@@ -48,32 +62,6 @@ const Countries = () => {
     useEffect(() => {
         setFilteredCountries(filterCountries())
     }, [searchQuery])
-
-    // a setTime is added here to be able to display the loader
-    useEffect(() => {
-        if (countries.length > 0) {
-            setTimeout(() => { setLoading(false) }, 1000)
-        }
-        // setLoading(false)
-    }, [countries])
-
-
-    // sort just on country name, get key from e.currentTarget.id
-    function sorter(e: React.MouseEvent): void {
-        console.log(25, e.currentTarget.id)
-
-        const key = e.currentTarget.id;
-        // sort logic adjusted to always start in ascending as you move to a new key
-        const order = (sortObject.order === 'ascending' && key === sortObject.key) ? 'descending' : 'ascending';
-
-        // check timing of this hook
-        setSortObject({ key, order })
-    }
-
-    // find a country based on name
-    function filterCountries() {
-        return countries.filter(country => country.name.common.toLowerCase().includes(searchQuery.toLowerCase()))
-    }
 
     // note the unique id for a country is based on ISO 3166-1 alpha-2 two-letter country codes, in the api its called 'alpha2Code / cca2'
 
