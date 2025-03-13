@@ -3,6 +3,7 @@ import Country from './interfaces/ICountry';
 import { fetchCountries } from "./services/fetchCountries";
 import Loader from "./Loader";
 import './Countries.css'
+import { Button } from "@radix-ui/themes";
 
 const Countries = () => {
     const [countries, setCountries] = useState<Country[]>([]);
@@ -86,10 +87,10 @@ const Countries = () => {
                     <thead>
                         <tr>
                             <th onClick={adjustSortObject} id="name">
-                                <button className={sortObject.key === "name" ? "highlight" : ""}>Name {sortObject.key === "name" ? (sortObject.order === 'ascending' ? '▼' : '▲') : '▼▲'}</button>
+                                <Button variant={sortObject.key === "name" ? "solid" : "outline"}>Name {sortObject.key === "name" ? (sortObject.order === 'ascending' ? '▼' : '▲') : '▼▲'}</Button>
                             </th>
                             <th onClick={adjustSortObject} id="population">
-                                <button className={sortObject.key === "population" ? "highlight" : ""}>Population{sortObject.key === "population" ? (sortObject.order === 'ascending' ? '▼' : '▲') : '▼▲'}</button>
+                                <Button variant={sortObject.key === "population" ? "solid" : "outline"}>Population{sortObject.key === "population" ? (sortObject.order === 'ascending' ? '▼' : '▲') : '▼▲'}</Button>
                             </th>
                             <th id="capital">Capital</th>
                             <th id="flag">Flag</th>
