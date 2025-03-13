@@ -19,6 +19,8 @@
 - Updated country list to show name, population, capital, and flag
 - Saw how to use Northern Europe subregion in documentation
 - Worked on the sorting feature of the table, note you will need to track if you are doing ascending or descending and then track the field as there is a different kind of sort used with text and numbers.
+- Added a search bar to filter countries by name
+- Added a loader note it is adjusted to appear more visible by adding a setTimeout
 
 
 # React + TypeScript + Vite
