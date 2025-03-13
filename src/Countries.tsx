@@ -68,7 +68,7 @@ const Countries = () => {
 
     // name, population, capital, and flag
     return (
-        <div>
+        <div id="countries">
             <h1>ISG Countries Info Finder</h1>
             <label htmlFor="text">Search for a country</label>
             <input
