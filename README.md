@@ -21,6 +21,7 @@
 - Worked on the sorting feature of the table, note you will need to track if you are doing ascending or descending and then track the field as there is a different kind of sort used with text and numbers.
 - Added a search bar to filter countries by name
 - Added a loader note it is adjusted to appear more visible by adding a setTimeout
+- Added alert if api has error, note it can be checked by changing the api url to an invalid url
 
 
 # React + TypeScript + Vite
