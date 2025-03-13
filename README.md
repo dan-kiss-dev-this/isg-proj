@@ -23,6 +23,9 @@
 - Added a loader note it is adjusted to appear more visible by adding a setTimeout
 - Added alert if api has error, note it can be checked by changing the api url to an invalid url
 
+- Per notes
+- Simplify the code
+- Make hooks easier to read and consume, now sortObject drives sortCountries, searchQuery drives filterCountries
 
 # React + TypeScript + Vite
 
