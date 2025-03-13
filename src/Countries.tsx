@@ -93,7 +93,6 @@ const Countries = () => {
                         <tr>
                             <th onClick={adjustSortObject} id="name">
                                 Name
-                                {/* <Button variant={sortObject.key === "name" ? "solid" : "outline"}>{sortObject.key === "name" ? (sortObject.order === 'ascending' ? '▼' : '▲') : '▼▲'}</Button> */}
                                 <HeightIcon height="12" width="16" color={sortObject.key === "name" ? "red" : "black"} />
                             </th>
                             <th onClick={adjustSortObject} id="population">
@@ -113,7 +112,6 @@ const Countries = () => {
                                 <td>
                                     <img src={country.flags.svg} alt={`Flag of ${country.name.common}`} width="50" />
                                 </td>
-                                {/* <CountryCard country={country} /> */}
                             </tr>
                         ))
                             :
@@ -130,11 +128,6 @@ const Countries = () => {
                         }
                     </tbody>
                 </table>
-                {/* <Grid gap="3" rows="repeat(2, 64px)" width="auto">
-                    {countries.map((country) => (
-                        <CountryCard country={country} />
-                    ))}
-                </Grid> */}
             </div>)
     )
 }
