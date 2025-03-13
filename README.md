@@ -25,6 +25,7 @@
 
 - Per notes
 - Simplify the code
+- Highlight the sorting icon in the table
 - Make hooks easier to read and consume, now sortObject drives sortCountries, searchQuery drives filterCountries
 
 # React + TypeScript + Vite
