@@ -11,56 +11,61 @@ const Countries = () => {
     const [filteredCountries, setFilteredCountries] = useState<Country[]>([])
     const [loading, setLoading] = useState<boolean>(true)
 
+    const getCountries = async () => {
+        try {
+            const countriesData = await fetchCountries()
+            const sortedCountries = [...countriesData].sort((a, b) => a.name.common.localeCompare(b.name.common));
+            setCountries(sortedCountries);
+            setLoading(false)
+        } catch (error) {
+            console.log(error)
+            alert(error)
+        }
+    }
+
     // find a country based on name
-    const filterCountries =() => {
-        return countries.filter(country => country.name.common.toLowerCase().includes(searchQuery.toLowerCase()))
+    const filterCountries = () => {
+        setFilteredCountries(countries.filter(country =>
+            country.name.common.toLowerCase().includes(searchQuery.toLowerCase())
+        ))
     }
 
     // sort just on country name, get key from e.currentTarget.id
-    const sorter = (e: React.MouseEvent): void => {
+    const adjustSortObject = (e: React.MouseEvent): void => {
         const key = e.currentTarget.id;
         // sort logic adjusted to always start in ascending as you move to a new key
         const order = (sortObject.order === 'ascending' && key === sortObject.key) ? 'descending' : 'ascending';
         setSortObject({ key, order })
     }
 
+    const sortCountries = () => {
+        const sortedCountries: Country[] = [...countries];
+        if (sortObject.order === "ascending" && sortObject.key === "name") {
+            sortedCountries.sort((a, b) => a.name.common.localeCompare(b.name.common));
+        }
+        else if (sortObject.order === "descending" && sortObject.key === "name") {
+            sortedCountries.sort((a, b) => b.name.common.localeCompare(a.name.common));
+        } else if (sortObject.order === "ascending" && sortObject.key === "population") {
+            sortedCountries.sort((a, b) => a.population - b.population);
+        } else if (sortObject.order === "descending" && sortObject.key === "population") {
+            sortedCountries.sort((a, b) => b.population - a.population);
+        }
+        setCountries(sortedCountries)
+    }
+
     // grab all countries from the api using the service
     useEffect(() => {
-        const getCountries = async () => {
-            try {
-                const countriesData = await fetchCountries()
-                const sortedCountries = [...countriesData].sort((a, b) => a.name.common.localeCompare(b.name.common));
-                setCountries(sortedCountries);
-                setLoading(false)
-            } catch (error) {
-                console.log(error)
-                alert(error)
-            }
-        }
-
         getCountries()
     }, [])
 
-    // this hook was added so that react will run the logic below only after the sortObject state has been updated. This avoids a timing issue where the sortObject state is not updated and the logic below runs which would appear to be a bug to the user.
+    // this hook is trigged by clicking the sort arrows
     useEffect(() => {
-        if (sortObject.order === "ascending" && sortObject.key === "name") {
-            const sortedCountries = [...countries].sort((a, b) => a.name.common.localeCompare(b.name.common));
-            setCountries(sortedCountries)
-        }
-        else if (sortObject.order === "descending" && sortObject.key === "name") {
-            const sortedCountries = [...countries].sort((a, b) => b.name.common.localeCompare(a.name.common));
-            setCountries(sortedCountries)
-        } else if (sortObject.order === "ascending" && sortObject.key === "population") {
-            const sortedPopulation = [...countries].sort((a, b) => a.population - b.population);
-            setCountries(sortedPopulation)
-        } else if (sortObject.order === "descending" && sortObject.key === "population") {
-            const sortedPopulation = [...countries].sort((a, b) => b.population - a.population);
-            setCountries(sortedPopulation)
-        }
+        sortCountries()
     }, [sortObject])
 
+    // this hook is trigged by typing in the search input
     useEffect(() => {
-        setFilteredCountries(filterCountries())
+        filterCountries()
     }, [searchQuery])
 
     // note the unique id for a country is based on ISO 3166-1 alpha-2 two-letter country codes, in the api its called 'alpha2Code / cca2'
@@ -82,10 +87,10 @@ const Countries = () => {
                 <table id="countriesTable">
                     <thead>
                         <tr>
-                            <th onClick={sorter} id="name">
+                            <th onClick={adjustSortObject} id="name">
                                 <button className={sortObject.key === "name" ? "highlight" : ""}>Name {sortObject.key === "name" ? (sortObject.order === 'ascending' ? '▼' : '▲') : '▼▲'}</button>
                             </th>
-                            <th onClick={sorter} id="population">
+                            <th onClick={adjustSortObject} id="population">
                                 <button className={sortObject.key === "population" ? "highlight" : ""}>Population{sortObject.key === "population" ? (sortObject.order === 'ascending' ? '▼' : '▲') : '▼▲'}</button>
                             </th>
                             <th id="capital">Capital</th>
