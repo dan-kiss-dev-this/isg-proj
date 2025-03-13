@@ -82,9 +82,10 @@ const Countries = () => {
             :
             (<div id="countries">
                 <h1>ISG Countries Info Finder</h1>
-                <label htmlFor="text">Search for a country</label>
+                <label htmlFor="find">Search for a country</label>
                 <input
                     type="text"
+                    id="find"
                     placeholder="Search for a country"
                     value={searchQuery}
                     onChange={e => setSearchQuery(e.currentTarget.value)}
