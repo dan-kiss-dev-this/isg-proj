@@ -23,21 +23,6 @@ const Countries = () => {
         }
     }
 
-    // find a country based on name
-    const filterCountries = () => {
-        setFilteredCountries(countries.filter(country =>
-            country.name.common.toLowerCase().includes(searchQuery.toLowerCase())
-        ))
-    }
-
-    // sort just on country name, get key from e.currentTarget.id
-    const adjustSortObject = (e: React.MouseEvent): void => {
-        const key = e.currentTarget.id;
-        // sort logic adjusted to always start in ascending as you move to a new key
-        const order = (sortObject.order === 'ascending' && key === sortObject.key) ? 'descending' : 'ascending';
-        setSortObject({ key, order })
-    }
-
     const sortCountries = () => {
         const sortedCountries: Country[] = [...countries];
         if (sortObject.order === "ascending" && sortObject.key === "name") {
@@ -51,6 +36,21 @@ const Countries = () => {
             sortedCountries.sort((a, b) => b.population - a.population);
         }
         setCountries(sortedCountries)
+    }
+
+    // used with search input
+    const filterCountries = () => {
+        setFilteredCountries(countries.filter(country =>
+            country.name.common.toLowerCase().includes(searchQuery.toLowerCase())
+        ))
+    }
+
+    // used with buttons to sort
+    const adjustSortObject = (e: React.MouseEvent): void => {
+        const key = e.currentTarget.id;
+        // sort logic adjusted to always start in ascending as you move to a new key
+        const order = (sortObject.order === 'ascending' && key === sortObject.key) ? 'descending' : 'ascending';
+        setSortObject({ key, order })
     }
 
     // grab all countries from the api using the service
@@ -67,8 +67,6 @@ const Countries = () => {
     useEffect(() => {
         filterCountries()
     }, [searchQuery])
-
-    // note the unique id for a country is based on ISO 3166-1 alpha-2 two-letter country codes, in the api its called 'alpha2Code / cca2'
 
     // name, population, capital, and flag
     return (
