@@ -3,7 +3,8 @@ import Country from './interfaces/ICountry';
 import { fetchCountries } from "./services/fetchCountries";
 import Loader from "./Loader";
 import './Countries.css'
-import { Button } from "@radix-ui/themes";
+import { TextField, Heading } from "@radix-ui/themes";
+import { MagnifyingGlassIcon, HeightIcon } from "@radix-ui/react-icons"
 
 const Countries = () => {
     const [countries, setCountries] = useState<Country[]>([]);
@@ -74,23 +75,30 @@ const Countries = () => {
         loading ? <Loader />
             :
             (<div id="countries">
-                <h1>ISG Countries Info Finder</h1>
-                <label htmlFor="find">Search for a country</label>
-                <input
-                    type="text"
-                    id="find"
-                    placeholder="Search for a country"
+                <Heading as="h1" size="7" weight="bold">
+                    ISG Country Tracker
+                </Heading>
+                <TextField.Root
+                    placeholder="Search for a country..."
                     value={searchQuery}
                     onChange={e => setSearchQuery(e.currentTarget.value)}
-                />
+                    id="find"
+                >
+                    <TextField.Slot>
+                        <MagnifyingGlassIcon height="16" width="16" />
+                    </TextField.Slot>
+                </TextField.Root>
                 <table id="countriesTable">
                     <thead>
                         <tr>
                             <th onClick={adjustSortObject} id="name">
-                                <Button variant={sortObject.key === "name" ? "solid" : "outline"}>Name {sortObject.key === "name" ? (sortObject.order === 'ascending' ? '▼' : '▲') : '▼▲'}</Button>
+                                Name
+                                {/* <Button variant={sortObject.key === "name" ? "solid" : "outline"}>{sortObject.key === "name" ? (sortObject.order === 'ascending' ? '▼' : '▲') : '▼▲'}</Button> */}
+                                <HeightIcon height="12" width="16" color={sortObject.key === "name" ? "red" : "black"} />
                             </th>
                             <th onClick={adjustSortObject} id="population">
-                                <Button variant={sortObject.key === "population" ? "solid" : "outline"}>Population{sortObject.key === "population" ? (sortObject.order === 'ascending' ? '▼' : '▲') : '▼▲'}</Button>
+                                Population
+                                <HeightIcon height="12" width="16" color={sortObject.key === "population" ? "red" : "black"} />
                             </th>
                             <th id="capital">Capital</th>
                             <th id="flag">Flag</th>
@@ -105,6 +113,7 @@ const Countries = () => {
                                 <td>
                                     <img src={country.flags.svg} alt={`Flag of ${country.name.common}`} width="50" />
                                 </td>
+                                {/* <CountryCard country={country} /> */}
                             </tr>
                         ))
                             :
@@ -121,6 +130,11 @@ const Countries = () => {
                         }
                     </tbody>
                 </table>
+                {/* <Grid gap="3" rows="repeat(2, 64px)" width="auto">
+                    {countries.map((country) => (
+                        <CountryCard country={country} />
+                    ))}
+                </Grid> */}
             </div>)
     )
 }

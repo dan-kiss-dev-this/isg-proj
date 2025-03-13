@@ -4,13 +4,17 @@
 
 #countriesTable {
     margin: auto;
+    width: 100%;
 }
 
-input {
-    margin: 10px;
-    padding: 5px;
+h1 {
+    margin: 20px 0;
+    padding: 10px;
+    background-color: #5c7569;
+    color: white;
+    border-radius: 4px;
 }
 
-.highlight {
-    background-color: red;
+.rt-TextFieldRoot {
+    margin: 10px 0;
 }
