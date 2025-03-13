@@ -20,6 +20,7 @@ const Countries = () => {
                 setCountries(sortedCountries);
             } catch (error) {
                 console.log(error)
+                alert(error)
             }
         }
 
