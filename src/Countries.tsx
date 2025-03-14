@@ -7,7 +7,7 @@ import { TextField, Heading } from "@radix-ui/themes";
 import { MagnifyingGlassIcon, HeightIcon } from "@radix-ui/react-icons"
 
 const Countries = () => {
-    const [countries, setCountries] = useState<Country[]>([]);
+    const [allCountries, setAllCountries] = useState<Country[]>([]);
     const [sortObject, setSortObject] = useState<{ key: string, order: string }>({ key: 'name', order: 'ascending' })
     const [searchQuery, setSearchQuery] = useState<string>("");
     const [filteredCountries, setFilteredCountries] = useState<Country[]>([])
@@ -17,7 +17,8 @@ const Countries = () => {
         try {
             const countriesData = await fetchCountries()
             const sortedCountries = [...countriesData].sort((a, b) => a.name.common.localeCompare(b.name.common));
-            setCountries(sortedCountries);
+            setAllCountries(sortedCountries);
+            setFilteredCountries(sortedCountries);
             setLoading(false)
         } catch (error) {
             console.log(error)
@@ -26,7 +27,7 @@ const Countries = () => {
     }
 
     const sortCountries = () => {
-        const sortedCountries: Country[] = [...countries];
+        const sortedCountries: Country[] = [...filteredCountries];
         if (sortObject.order === "ascending" && sortObject.key === "name") {
             sortedCountries.sort((a, b) => a.name.common.localeCompare(b.name.common));
         }
@@ -37,14 +38,18 @@ const Countries = () => {
         } else if (sortObject.order === "descending" && sortObject.key === "population") {
             sortedCountries.sort((a, b) => b.population - a.population);
         }
-        setCountries(sortedCountries)
+        setFilteredCountries(sortedCountries)
     }
 
     // used with search input
     const filterCountries = () => {
-        setFilteredCountries(countries.filter(country =>
-            country.name.common.toLowerCase().includes(searchQuery.toLowerCase())
-        ))
+        if (searchQuery === "") {
+            setFilteredCountries(allCountries)
+        } else {
+            setFilteredCountries(allCountries.filter(country =>
+                country.name.common.toLowerCase().includes(searchQuery.toLowerCase())
+            ))
+        }
     }
 
     // used with buttons to sort
@@ -104,7 +109,7 @@ const Countries = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {filteredCountries.length === 0 ? countries.map((country) => (
+                        {filteredCountries.map((country) => (
                             <tr key={country.cca2}>
                                 <td>{country.name.common}</td>
                                 <td>{country.population}</td>
@@ -114,17 +119,6 @@ const Countries = () => {
                                 </td>
                             </tr>
                         ))
-                            :
-                            filteredCountries.map((country) => (
-                                <tr key={country.cca2}>
-                                    <td>{country.name.common}</td>
-                                    <td>{country.population}</td>
-                                    <td>{country.capital?.[0]}</td>
-                                    <td>
-                                        <img src={country.flags.svg} alt={`Flag of ${country.name.common}`} width="50" />
-                                    </td>
-                                </tr>
-                            ))
                         }
                     </tbody>
                 </table>
